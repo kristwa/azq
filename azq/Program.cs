@@ -1,19 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using azq.Azure;
 using azq.Commands;
 using azq.Infrastructure;
-using Azure.Identity;
-using Azure.ResourceManager;
-using Azure.ResourceManager.KeyVault;
-using Azure.ResourceManager.Resources;
-
-using Azure.ResourceManager.Subscription;
-using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.DependencyInjection;
-using Spectre.Console;
 using Spectre.Console.Cli;
 
 var serviceCollection = new ServiceCollection();
