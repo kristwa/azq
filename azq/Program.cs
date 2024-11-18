@@ -17,15 +17,15 @@ app.Configure(config =>
 {
     config.AddCommand<KeyVaultCommand>("keyvault")
         .WithAlias("kv")
-        .WithDescription("Fetch secrets from Azure Key Vault");
+        .WithDescription("(or [b yellow]kv[/]) - Fetch secrets from Azure Key Vault");
     config.AddBranch("subscription", subscription =>
     {
-        subscription.SetDescription("Manage Azure subscriptions");
+        subscription.SetDescription("(or [b yellow]sub[/]) - Manage Azure subscriptions");
         subscription.AddCommand<ListSubscriptionsCommand>("list")
             .WithDescription("List subscriptions");
         subscription.AddCommand<SetSubscriptionCommand>("set")
             .WithDescription("Set current subscription");
-    });
+    }).WithAlias("sub");
 
 });
 
