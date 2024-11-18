@@ -29,14 +29,14 @@ jobs:
       working-directory: azq
 
     - name: Publish
-      run: dotnet publish --configuration Release --runtime osx-arm64 --no-build --output publish
+      run: dotnet publish --configuration Release --runtime osx-arm64 --no-build --output ./publish/osx-arm64
       working-directory: azq
 
     - name: Create and Upload Release 
       uses: softprops/action-gh-release@v2
       with: 
-        files: ./azq/publish/** 
-        tag_name: ${{ github.ref }} 
-        release_name: Release ${{ github.ref }} 
+        files: ./publish/osx-arm64/** 
+        tag_name: ${{ github.ref_name }} 
+        release_name: Release ${{ github.ref_name }} 
         draft: false 
         prerelease: true
