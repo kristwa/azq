@@ -24,11 +24,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+    - name: Build for macOS (arm64)
+      run: dotnet build --configuration --runtime osx-arm64 Release --no-restore
+      working-directory: azq
 
     - name: Publish
-      run: dotnet publish --configuration Release --no-build
+      run: dotnet publish --configuration --runtime osx-arm64 Release --no-build
+      working-directory: azq
 
     - name: Create and Upload Release 
       uses: softprops/action-gh-release@v2 
