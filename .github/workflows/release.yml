@@ -35,8 +35,8 @@ jobs:
     - name: Create and Upload Release 
       uses: softprops/action-gh-release@v2
       with: 
-        files: ./publish/osx-arm64/** 
-        tag_name: ${{ github.ref_name }} 
-        release_name: Release ${{ github.ref_name }} 
+        files: ./azq/publish/osx-arm64/** 
+        tag_name: v1.0.0
+        release_name: Release v1.0.0 
         draft: false 
         prerelease: true
