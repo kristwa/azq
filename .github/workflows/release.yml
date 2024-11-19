@@ -33,7 +33,7 @@ jobs:
       working-directory: azq
 
     - name: Zip macOS (arm64) publish
-      run: zip -r publish/osx-arm64.zip publish/osx-arm64
+      run: zip -j publish/osx-arm64.zip publish/osx-arm64/*
       working-directory: azq
 
     - name: Build for Windows (x64)
@@ -45,7 +45,7 @@ jobs:
       working-directory: azq
 
     - name: Zip Windows (x64) publish
-      run: zip -r publish/win-x64.zip publish/win-x64
+      run: zip -j publish/win-x64.zip publish/win-x64/*
       working-directory: azq
 
     - name: Create and Upload Release 
