@@ -21,12 +21,16 @@ public class AzureKeyVaultClient
 
     private SecretClient? SecretClient { get; set; }
     
-    public async Task<List<KeyVaultResource>> GetKeyVaults(SubscriptionResource subscription)
+    public async Task<List<KeyVaultResource>> GetKeyVaults(List<SubscriptionResource> subscriptions)
     {
         List<KeyVaultResource> keyVaults = [];
-        await foreach (var keyVault in subscription.GetKeyVaultsAsync())
+        
+        foreach (var subscription in subscriptions)
         {
-            keyVaults.Add(keyVault);
+            await foreach (var keyVault in subscription.GetKeyVaultsAsync())
+            {
+                keyVaults.Add(keyVault);
+            }    
         }
         
         return keyVaults;

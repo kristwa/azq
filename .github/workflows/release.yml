@@ -54,7 +54,7 @@ jobs:
         files: |
           ./azq/publish/osx-arm64.zip
           ./azq/publish/win-x64.zip
-        tag_name: v1.0.0
-        release_name: Release v1.0.0 
+        tag_name: v1.0.1
+        release_name: Release v1.0.1
         draft: false 
         prerelease: true

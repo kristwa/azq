@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Azure.Core;
 using Azure.Identity;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Resources;
@@ -7,12 +8,12 @@ namespace azq.Azure;
 
 public class AzureSubscriptionClient
 {
-    private readonly DefaultAzureCredential _credential;
+    private readonly TokenCredential _credential;
     private readonly ArmClient _armClient;
 
     public AzureSubscriptionClient()
     {
-        _credential = new DefaultAzureCredential();
+        _credential = new AzureCliCredential();
         _armClient = new ArmClient(_credential);
 
     }
@@ -20,14 +21,23 @@ public class AzureSubscriptionClient
     public async Task<List<SubscriptionResource>> GetSubscriptions()
     {
         List<SubscriptionResource> subscriptions = new();
-        await foreach (var subscription in _armClient.GetSubscriptions().GetAllAsync())
+        await foreach(var tenant in _armClient.GetTenants().GetAllAsync())
         {
-            subscriptions.Add(subscription);
+            Console.WriteLine(tenant.Data.TenantId);
+            await foreach (var subscription in tenant.GetSubscriptions().GetAllAsync())
+            {
+                if (subscriptions.Any(s => s.Data.SubscriptionId == subscription.Data.SubscriptionId))
+                    continue;
+                
+                subscriptions.Add(subscription);
+            }
         }
+        
 
         return subscriptions;
     }
 
+    [Obsolete("not working properly", true)]
     public async Task<SubscriptionResource> GetDefaultSubscription()
     {
         return await _armClient.GetDefaultSubscriptionAsync();

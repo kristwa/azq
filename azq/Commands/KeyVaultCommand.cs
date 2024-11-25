@@ -28,24 +28,24 @@ public class KeyVaultCommand : AsyncCommand<KeyVaultCommand.KvSettings>
     public override async Task<int> ExecuteAsync(CommandContext context, KvSettings settings)
     {
         // Fetch subscription
-        SubscriptionResource? subscription = null;
+        List<SubscriptionResource> subscriptions = [];
         
         await AnsiConsole.Status().Spinner(Constants.DefaultSpinner).StartAsync("Fetching subscriptions from Azure...", async ctx =>
         {
-            subscription = await _subscriptionClient.GetDefaultSubscription();
+            subscriptions.AddRange(await _subscriptionClient.GetSubscriptions());
         });
 
-        if (subscription is null)
+        if (subscriptions.Count == 0)
             return 1;
         
-        AnsiConsole.MarkupLine("Current subscription: [bold cyan]{0}[/]", subscription.Data.DisplayName);
+        // AnsiConsole.MarkupLine("Current subscription: [bold cyan]{0}[/]", subscription.Data.DisplayName);
         
         // Fetch key vaults
         List<KeyVaultResource> keyVaults = [];
         
         await AnsiConsole.Status().Spinner(Constants.DefaultSpinner).StartAsync("Fetching key vaults from Azure...", async ctx =>
         {
-            keyVaults.AddRange(await _keyVaultClient.GetKeyVaults(subscription));
+            keyVaults.AddRange(await _keyVaultClient.GetKeyVaults(subscriptions));
         });
         
         var selectedKeyVault = keyVaults.Count switch {
